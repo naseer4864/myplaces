@@ -79,7 +79,7 @@ const Auth = () => {
         const response = await fetch(process.env.REACT_APP_BACKEND_URL + "/users/signup", {
           method: "POST",
           body: formData,
-          mode: 'cors', // Add this line to enable CORS
+          // mode: 'cors', // Add this line to enable CORS
           credentials: "include",
         });
         const responseData = await response.json();
