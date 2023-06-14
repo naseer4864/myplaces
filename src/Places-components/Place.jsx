@@ -11,7 +11,7 @@ const formDefault = {
 };
 
 const NewPlaces = () => {
-  const { userId } = useContext(UserContext);
+  const { userId,token } = useContext(UserContext);
   const [formInput, setFormInput] = useState(formDefault);
   const [submitted, setSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -60,7 +60,9 @@ const NewPlaces = () => {
         const response = await fetch(process.env.REACT_APP_BACKEND_URL + "/places", {
           method: "POST",
           body: formData,
-          headers: { Authorization: `Bearer ${userId.token}` },
+          headers: {
+            Authorization: 'Bearer ' + token
+          },
           mode: "cors",
         });
 

@@ -1,16 +1,18 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, Fragment } from "react";
 import { UserContext } from "../context/userContext";
 import MyMap from "./map";
 import { Link } from "react-router-dom";
+import Spinner from '../asset/spinner/spinner'
 
 
 const PlaceInfo = ({ places, onDelete }) => {
-  const { isLoggedIn } = useContext(UserContext);
+  const { token } = useContext(UserContext);
   const { id, image, title, description, address, location, zoom  } = places;
 
   const [show, setShow] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const [error, setError] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleShow = () => {
     setShow(true);
@@ -25,12 +27,15 @@ const PlaceInfo = ({ places, onDelete }) => {
   };
 
   const handleConfirmDelete = async () => {
+    setIsLoading(true)
     setShowDelete(false);
-    console.log("Deleting......");
     try {
-      const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/places/${id}`,
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/places/${id}`,
       {
         method: "DELETE",
+        headers: {
+          Authorization: 'Bearer ' + token
+        }
         
       }
       );
@@ -39,13 +44,16 @@ const PlaceInfo = ({ places, onDelete }) => {
         throw new Error(responseData.message)
       }
       onDelete(id)
+      setIsLoading(false)
     } catch (error) {
       setError(error.message)
     }
   }; 
 
   return (
-    <div className="places-container">
+    <Fragment>
+      {isLoading && <Spinner/>}
+      <div className="places-container">
       <div className="place-card">
         <div className="place-item-info">
         <img src={`http://localhost:4000/${image}`} alt={image.name} />
@@ -56,7 +64,7 @@ const PlaceInfo = ({ places, onDelete }) => {
         <div className="line"></div>
         <div className="place-item-action">
           <button onClick={handleShow}>VIEW ON MAP</button>
-          {isLoggedIn && (
+          {token && (
             <>
               <Link to={`/places/${id}`} className="btn-edit">
                 EDIT
@@ -97,6 +105,7 @@ const PlaceInfo = ({ places, onDelete }) => {
         </div>
       )}
     </div>
+    </Fragment>
   );
 };
 

@@ -40,7 +40,7 @@ const Navbar = () => {
               <Link to={`/${userId}/places`} className="link">
                 MY PLACES
               </Link>
-              <Link to="/Places/new" className="link">
+              <Link to="/places/new" className="link">
                 ADD PLACE
               </Link>
             </>

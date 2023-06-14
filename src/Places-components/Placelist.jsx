@@ -1,70 +1,77 @@
-
-import { useState, useEffect, Fragment } from "react";
-import PlaceInfo from "./Placeinfo";
+import React, { useState, useEffect, Fragment,  } from "react";
 import { Link, useParams } from "react-router-dom";
 import Spinner from "../asset/spinner/spinner";
-import { useContext } from "react";
-import { UserContext } from "../context/userContext";
+import PlaceInfo from "./Placeinfo";
 
 
 const PlaceList = () => {
-  const userId = useParams().userId;
-  const {token} = useContext(UserContext)
+  const { userId } = useParams();
  
-  const [Places, setPlaces] = useState();
+ 
+
+  const [places, setPlaces] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setErrors] = useState(false)
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-
-    setIsLoading(true)
     const getPlaces = async () => {
-     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/places/user/${userId}`);
-      const responseData = await response.json();
-      if(!response.ok){
-        throw new Error(responseData.message)
+      setIsLoading(true);
+      try {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/places/user/${userId}`);
+        const responseData = await response.json();
+        if (!response.ok) {
+          throw new Error(responseData.message);
+        }
+        setPlaces(responseData.places);
+      } catch (error) {
+        setError(error.message);
       }
-      setIsLoading(false)
-      setPlaces(responseData.places)
-     } catch (error) {
-      setIsLoading(false)
-      setErrors(error.message)
-     }
-    }
+      setIsLoading(false);
+    };
+
     getPlaces();
-  },[userId])
+  }, [userId]);
+ 
 
   const placeDeletedHandler = (deletedPlaceId) => {
     setPlaces((prevPlaces) => prevPlaces.filter((place) => place.id !== deletedPlaceId));
   };
-  if (!Places ||Places.length === 0) {
+
+  if (!places || places.length === 0) {
     return (
       <Fragment>
-        {isLoading && <Spinner/>}
-        <div className="no-user-container">
-        <div className="noplace-found">
-        <h2>No places found. Maybe create one</h2>
-        {
-          token ? ( <Link to="/places/new" className="share">Create place</Link>) : (<Link to="/Auth" className="share">Please Login first</Link>)
-        }
-      </div>
+        {error && (
+        <div className="modal-container">
+          <div className="error-modal">
+            <h3>An Error Occurred!</h3>
+            <p className="error-modal">{error}</p>
+            <button onClick={() => setError(false)}>Okay</button>
+          </div>
         </div>
+      )}
+        {isLoading && <Spinner />}
+        <div className="no-user-container">
+          <div className="noplace-found">
+            <h2>No places found. Maybe create one</h2>
+            <Link to="/places/new" className="share">
+              Create place
+            </Link>
+          </div>
+        </div>
+        {error && <p>{error}</p>}
       </Fragment>
     );
   }
 
-  
-
   return (
     <Fragment>
-      {isLoading && <Spinner/>}
+      {isLoading && <Spinner />}
       <div>
-      {Places.map((place) => (
-        <PlaceInfo key={place.id} places={place} onDelete={placeDeletedHandler}/>
-      ))}
-      <p>{error}</p>
-    </div>
+        {places.map((place) => (
+          <PlaceInfo key={place.id} places={place} onDelete={placeDeletedHandler} />
+        ))}
+        {error && <p>{error}</p>}
+      </div>
     </Fragment>
   );
 };

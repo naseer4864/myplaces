@@ -1,49 +1,29 @@
-import React, { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./Users-components/Navbar";
+import UserList from "./Users-components/Userlist";
+import NewPlaces from "./Places-components/Place";
 import NotFound from "./Users-components/notfound";
-import Spinner from "./asset/spinner/spinner";
+import PlaceList from "./Places-components/Placelist";
+import UpdatePlaces from "./Places-components/updatePlaces";
+import Auth from "./Users-components/Auth/Auth";
+import ResetPass from "./Users-components/Auth/Reset-pass";
 
-const UserList = lazy(() => import('./Users-components/Userlist'));
-const NewPlaces = lazy(() => import('./Places-components/Place'));
-const PlaceList = lazy(() => import('./Places-components/Placelist'));
-const UpdatePlaces = lazy(() => import('./Places-components/updatePlaces'));
-const Auth = lazy(() => import('./Users-components/Auth/Auth'));
+
 
 const App = () => {
-  return (
+  return(
     <Routes>
-      <Route path="/" element={<Navbar />}>
-        <Route index element={
-          <Suspense fallback={<Spinner />}>
-            <UserList />
-          </Suspense>
-        } />
-        <Route path="/Places/new" element={
-          <Suspense fallback={<Spinner />}>
-            <NewPlaces />
-          </Suspense>
-        } />
-        <Route path="/:userId/Places" element={
-          <Suspense fallback={<Spinner />}>
-            <PlaceList />
-          </Suspense>
-        } />
-        <Route path="/places/:placeId" element={
-          <Suspense fallback={<Spinner />}>
-            <UpdatePlaces />
-          </Suspense>
-        } />
-        <Route path="/Auth" element={
-          <Suspense fallback={<Spinner />}>
-            <Auth />
-          </Suspense>
-        } />
+      <Route path="/" element={<Navbar/>}>
+        <Route index element={<UserList/>}/>
+        <Route path="/Places/new" element={<NewPlaces/>}/>
+        <Route path="/:userId/Places" element={<PlaceList/>}/>
+        <Route path="/places/:placeId" element={<UpdatePlaces/>}/>
+        <Route path="Auth" element={<Auth/>} />
+        <Route path="ResetPass" element={<ResetPass/>}/>
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
-  );
-};
-
+  )
+}
+ 
 export default App;
-

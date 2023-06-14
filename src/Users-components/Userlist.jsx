@@ -36,6 +36,15 @@ const UserList = () => {
   
   return (
     <Fragment>
+      {error && (
+        <div className="modal-container">
+          <div className="error-modal">
+            <h3>An Error Occurred!</h3>
+            <p className="error-modal">{error}</p>
+            <button onClick={() => setError(false)}>Okay</button>
+          </div>
+        </div>
+      )}
       {isLoading && <Spinner />}
       {users.map((user) => (
         <UsersCard key={user.id} user={user} />

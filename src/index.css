@@ -677,5 +677,49 @@ html::-webkit-scrollbar {
   margin: 20px auto;
 }
 
+.reset-container {
+  max-width: 500px;
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: white;
+  margin: 10px auto;
+  border-radius: 5px;
+}
 
+.reset-container > form {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
 
+.reset-container > form > p {
+  margin: 10px;
+}
+
+.reset-container > form > input {
+  width: 80%;
+  height: 40px;
+  margin: 10px 0px;
+  padding-left: 10px;
+}
+
+.reset-container > form > button {
+  width: 30%;
+  height: 40px;
+  margin-bottom: 15px;
+  border: 1px solid #FF0055;
+  color: #FF0055;
+  background-color: white;
+  cursor: pointer;
+}
+
+.reset-container > form > button:hover {
+    background-color: #FF0055;
+    color: white;
+}

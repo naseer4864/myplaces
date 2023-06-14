@@ -1,7 +1,8 @@
 import React, { useState, useContext, Fragment } from "react";
 import { UserContext } from "../../context/userContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ImageUpload from "../../imageUploader/imageUpload";
+
 
 import Spinner from "../../asset/spinner/spinner";
 
@@ -35,7 +36,7 @@ const Auth = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    console.log(inputField);
+    
 
     if (!image && !isLoginMode) {
       setError("Please select an image.");
@@ -54,7 +55,7 @@ const Auth = () => {
             email: inputField.email,
             password: inputField.password,
           }),
-          mode: 'cors', // Add this line to enable CORS
+          mode: 'cors',
         });
         const responseData = await response.json();
         if (!response.ok) {
@@ -151,6 +152,7 @@ const Auth = () => {
               required
             />
           </label>
+          {isLoginMode && (<><p>Forgot Password ?</p> <Link to='/ResetPass'>here</Link></>)}
           <button type="submit">{isLoginMode ? "LOGIN" : "SIGNUP"}</button>
         </form>
         <button onClick={handleSwitch}>

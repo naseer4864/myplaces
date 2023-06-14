@@ -10,14 +10,16 @@ export const UserContext = createContext({
 
 export const UserProvider = ({ children }) => {
   const storedToken = localStorage.getItem("token");
+  const storedUserId = localStorage.getItem("userId");
   const [token, setToken] = useState(storedToken);
-  const [userId, setUserId] = useState(false);
+  const [userId, setUserId] = useState(storedUserId);
 
   const Login = useCallback((uid, token, expirationDate) => {
     setToken(token);
     setUserId(uid);
     const tokenExpirationDate = expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60);
     localStorage.setItem("token", token);
+    localStorage.setItem("userId", uid);
     localStorage.setItem("expirationDate", tokenExpirationDate);
   }, []);
 
@@ -25,6 +27,7 @@ export const UserProvider = ({ children }) => {
     setToken(null);
     setUserId(null);
     localStorage.removeItem("token");
+    localStorage.removeItem("userId");
     localStorage.removeItem("expirationDate");
   }, []);
 
