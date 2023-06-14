@@ -80,6 +80,9 @@ const Auth = () => {
           method: "POST",
           body: formData,
           mode: 'cors', // Add this line to enable CORS
+          headers: {
+            "Content-Type": "application/json",
+          },
           
         });
         const responseData = await response.json();
