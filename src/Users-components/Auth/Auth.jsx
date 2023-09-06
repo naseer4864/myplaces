@@ -74,12 +74,12 @@ const Auth = () => {
         const formData = new FormData();
         formData.append('email', inputField.email);
         formData.append('name', inputField.name);
+        formData.append('image', image); 
         formData.append('password', inputField.password);
-        formData.append('image', image); // Use the 'image' state instead of 'inputField.image'
         const response = await fetch(process.env.REACT_APP_BACKEND_URL + "/users/signup", {
           method: "POST",
           body: formData,
-          mode: 'cors', // Add this line to enable CORS
+          mode: 'cors', 
           
           
         });

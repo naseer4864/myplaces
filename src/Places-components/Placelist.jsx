@@ -6,9 +6,6 @@ import PlaceInfo from "./Placeinfo";
 
 const PlaceList = () => {
   const { userId } = useParams();
- 
- 
-
   const [places, setPlaces] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);

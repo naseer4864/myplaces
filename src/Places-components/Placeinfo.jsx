@@ -46,6 +46,7 @@ const PlaceInfo = ({ places, onDelete }) => {
       onDelete(id)
       setIsLoading(false)
     } catch (error) {
+      setIsLoading(false)
       setError(error.message)
     }
   }; 
@@ -56,7 +57,7 @@ const PlaceInfo = ({ places, onDelete }) => {
       <div className="places-container">
       <div className="place-card">
         <div className="place-item-info">
-        <img src={`http://localhost:4000/${image}`} alt={image.name} />
+        <img src={`https://placebackend.herokuapp.com/${image}`} alt={image.name} />
           <h2>{title}</h2>
           <h4>{address}</h4>
           <p>{description}</p>
