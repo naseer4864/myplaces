@@ -29,7 +29,7 @@ const Navbar = () => {
           <h2>YourPlaces</h2>
         </Link>
         <div
-          className={isMobile ? "mobile-link" : "nav-links"}
+          className={`nav-links ${isMobile ? "mobile-link active" : "" }`}
           onClick={() => setIsmobile(false)}
         >
           <Link to="/" className="link">
